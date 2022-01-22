@@ -1,10 +1,10 @@
 # Linklerz-api
 
 
-# For all data
+### For all data
 
-## https://lerz-api.herokuapp.com/api/{username}?type=all
+#### https://lerz-api.herokuapp.com/api/{username}?type=all
 
-# For simple data
+### For simple data
 
-## https://lerz-api.herokuapp.com/api/{username}?type=regular
+#### https://lerz-api.herokuapp.com/api/{username}?type=regular
