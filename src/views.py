@@ -90,4 +90,6 @@ def getAllusers():
         finalData.append(data)
         id += 1 
 
+
+
     return jsonify(finalData), status.HTTP_201_CREATED

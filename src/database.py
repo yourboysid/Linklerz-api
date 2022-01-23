@@ -1,6 +1,7 @@
 from src.main import *
 
 app = Flask(__name__)
+CORS(app)
 
 URI = "mysql://uaxtpkcqscrfjxcu:BiC3bxjgJpN12aLbKbwC@byhuxzavekpkpqspeoke-mysql.services.clever-cloud.com:3306/byhuxzavekpkpqspeoke"
 e = create_engine(URI, pool_recycle=1800)
