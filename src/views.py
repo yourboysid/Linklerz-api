@@ -9,9 +9,11 @@ def get_linktype(links):
 def sortlinks(list_linkType, list_linkUrl):
     links = []
 
+    id = 1
     for name, url in zip(list_linkType, list_linkUrl):
-        link = {"name":name, 'url': url}
+        link = {"id": id, "name":name, 'url': url}
         links.append(link)
+        id += 1
 
     return links
 
@@ -91,5 +93,38 @@ def getAllusers():
         id += 1 
 
 
-
     return jsonify(finalData), status.HTTP_201_CREATED
+
+@app.get('/api/links/<string:username>')
+def getUserslinks(username):
+    pool = ThreadPool(processes=2)
+
+    # get userdata from db
+    userdata = Users.query.filter_by(username=username).first()
+
+    datatype = request.args.get('type')
+
+
+    # valid user
+    try:
+
+        linkType = userdata.linktype
+        linkUrl = userdata.linkurl
+
+        async_task_linkType = pool.apply_async(get_linktype, (linkType,))
+        async_task_linkUrl = pool.apply_async(get_linktype, (linkUrl,))
+
+        list_linkType = async_task_linkUrl.get()
+        list_linkUrl = async_task_linkType.get() 
+
+
+        links = sortlinks(list_linkType, list_linkUrl)
+
+    
+    # invalid user
+    except:
+
+        links  = {'status': 'failed','data': 'data not available' }
+
+
+    return jsonify(links), status.HTTP_201_CREATED
