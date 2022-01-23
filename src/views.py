@@ -20,7 +20,7 @@ def sortlinks(list_linkType, list_linkUrl):
 def index():
     return "<p>Hello world</p>"
 
-@app.route('/api/<string:username>', methods = ['GET'])
+@app.get('/api/user/<string:username>')
 def getuser(username):
 
     pool = ThreadPool(processes=2)
@@ -68,3 +68,26 @@ def getuser(username):
 
 
     return jsonify(finaldata), status.HTTP_201_CREATED
+
+
+@app.get('/api/users')
+def getAllusers():
+
+    # get userdata from db
+    allUserdata = Users.query.filter_by().all()
+
+
+    finalData = []
+
+    id = 1 
+    for userData in allUserdata: 
+        phone = userData.phone
+        if phone == '':
+            phone = None
+            
+        data  = {'id': id ,'username': userData.username,'phone': phone, 'email': userData.email , 'userid': userData.userid , 'plan': userData.plan}
+
+        finalData.append(data)
+        id += 1 
+
+    return jsonify(finalData), status.HTTP_201_CREATED
