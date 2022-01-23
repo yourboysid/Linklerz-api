@@ -1,5 +1,7 @@
 from src.main import *
 
+
+
 def get_linktype(links):
     finalList = links.split(">")
     return finalList
@@ -13,6 +15,7 @@ def sortlinks(list_linkType, list_linkUrl):
 
     return links
 
+
 @app.route('/')
 def index():
     return "<p>Hello world</p>"
@@ -20,6 +23,7 @@ def index():
 @app.route('/api/<string:username>', methods = ['GET'])
 def getuser(username):
 
+    pool = ThreadPool(processes=2)
 
     # get userdata from db
     userdata = Users.query.filter_by(username=username).first()
@@ -33,10 +37,15 @@ def getuser(username):
         linkType = userdata.linktype
         linkUrl = userdata.linkurl
 
-        list_linkType = get_linktype(linkType)
-        list_linkUrl = get_linktype(linkUrl)
+        async_task_linkType = pool.apply_async(get_linktype, (linkType,))
+        async_task_linkUrl = pool.apply_async(get_linktype, (linkUrl,))
+
+        list_linkType = async_task_linkUrl.get()
+        list_linkUrl = async_task_linkType.get() 
+
 
         links = sortlinks(list_linkType, list_linkUrl)
+
     
         if datatype == 'all': 
 
