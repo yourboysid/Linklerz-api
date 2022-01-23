@@ -42,8 +42,8 @@ def getuser(username):
         async_task_linkType = pool.apply_async(get_linktype, (linkType,))
         async_task_linkUrl = pool.apply_async(get_linktype, (linkUrl,))
 
-        list_linkType = async_task_linkUrl.get()
-        list_linkUrl = async_task_linkType.get() 
+        list_linkType = async_task_linkType.get()
+        list_linkUrl = async_task_linkUrl.get() 
 
 
         links = sortlinks(list_linkType, list_linkUrl)
@@ -114,9 +114,8 @@ def getUserslinks(username):
         async_task_linkType = pool.apply_async(get_linktype, (linkType,))
         async_task_linkUrl = pool.apply_async(get_linktype, (linkUrl,))
 
-        list_linkType = async_task_linkUrl.get()
-        list_linkUrl = async_task_linkType.get() 
-
+        list_linkType = async_task_linkType.get()
+        list_linkUrl = async_task_linkUrl.get() 
 
         links = sortlinks(list_linkType, list_linkUrl)
 
